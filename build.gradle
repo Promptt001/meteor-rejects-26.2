@@ -69,7 +69,7 @@ dependencies {
 	configurations.implementation.extendsFrom(configurations.extraLibs)
 
 	// Exploit Preventer (optional)
-	compileOnly("com.nikoverflow:exploit-preventer-api:0.0.1")
+	compileOnly("com.nikoverflow:exploit-preventer-api:1.0.0")
 }
 
 processResources {
