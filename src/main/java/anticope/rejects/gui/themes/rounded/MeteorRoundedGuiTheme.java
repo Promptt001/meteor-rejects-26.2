@@ -41,6 +41,18 @@ public class MeteorRoundedGuiTheme extends GuiTheme {
 
     // General
 
+    public final Setting<Boolean> modulesHelpText = sgGeneral.add(new BoolSetting.Builder()
+            .name("modules-help-text")
+            .description("Shows helpful text under modules.")
+            .defaultValue(true)
+            .build()
+    );
+
+    @Override
+    public boolean modulesHelpText() {
+        return modulesHelpText.get();
+    }
+
     public final Setting<Double> scale = sgGeneral.add(new DoubleSetting.Builder()
             .name("scale")
             .description("Scale of the GUI.")
@@ -50,7 +62,7 @@ public class MeteorRoundedGuiTheme extends GuiTheme {
             .sliderMax(4)
             .onSliderRelease()
             .onChanged(aDouble -> {
-                if (mc.screen instanceof WidgetScreen) ((WidgetScreen) mc.screen).invalidate();
+                if (mc.gui.screen() instanceof WidgetScreen) ((WidgetScreen) mc.gui.screen()).invalidate();
             })
             .build()
     );
@@ -74,7 +86,8 @@ public class MeteorRoundedGuiTheme extends GuiTheme {
             .description("Hide HUD when in GUI.")
             .defaultValue(false)
             .onChanged(v -> {
-                if (mc.screen instanceof WidgetScreen) mc.options.hideGui = v;
+                // 26.x: Options.hideGui removed; HUD hiding now handled by Hud#toggle()
+                if (v && mc.gui.screen() instanceof WidgetScreen) mc.gui.hud.toggle();
             })
             .build()
     );

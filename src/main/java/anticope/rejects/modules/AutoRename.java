@@ -12,6 +12,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.ItemContainerContents;
 import java.util.List;
@@ -117,27 +118,27 @@ public class AutoRename extends Module {
 
     private void renameItem(ItemStack s) {
         String setname = isContainerTarget(s) ? getFirstItemName(s) : name.get();
-        if (!(mc.screen instanceof AnvilScreen)) {
+        if (!(mc.gui.screen() instanceof AnvilScreen)) {
             error("Not anvil screen");
             toggle();
             return;
         }
-        var input = (EditBox) mc.screen.children().get(0);
+        var input = (EditBox) mc.gui.screen().children().get(0);
         input.setValue(setname);
     }
 
     private String getFirstItemName(ItemStack stack) {
         ItemContainerContents container = stack.get(DataComponents.CONTAINER);
         if (container != null) {
-            for (ItemStack item : container.nonEmptyItems()) {
-                return item.getHoverName().getString();
+            for (ItemStackTemplate template : container.nonEmptyItems()) {
+                return template.create().getHoverName().getString();
             }
         }
 
         BundleContents bundle = stack.get(DataComponents.BUNDLE_CONTENTS);
         if (bundle != null) {
-            for (ItemStack item : bundle.items()) {
-                return item.getHoverName().getString();
+            for (ItemStackTemplate template : bundle.items()) {
+                return template.create().getHoverName().getString();
             }
         }
         return "";

@@ -1,3 +1,4 @@
-accessWidener	v2	named
+accessWidener	v2	official
 
-accessible class net/minecraft/network/protocol/game/ServerboundInteractPacket$Action
+# 26.x: previous entry (accessible class ServerboundInteractPacket$Action) removed -
+# the packet is now a record with public accessors, no inner Action class exists.

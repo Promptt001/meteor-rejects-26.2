@@ -40,7 +40,7 @@ public class ShieldBypass extends Module {
     @EventHandler
     private void onMouseButton(MouseClickEvent event) {
         if (Modules.get().isActive(KillAura.class)) return;
-        if (mc.screen == null && !mc.player.isUsingItem() && event.action == KeyAction.Press && event.button() == GLFW_MOUSE_BUTTON_LEFT) {
+        if (mc.gui.screen() == null && !mc.player.isUsingItem() && event.action == KeyAction.Press && event.button() == GLFW_MOUSE_BUTTON_LEFT) {
             if (mc.hitResult instanceof EntityHitResult result) {
                 bypass(result.getEntity(), event);
             }
@@ -86,7 +86,7 @@ public class ShieldBypass extends Module {
 
             mc.getConnection().send(new ServerboundMovePlayerPacket.Pos(newPos.x(), newPos.y(), newPos.z(), true, false));
 
-            mc.getConnection().send(ServerboundInteractPacket.createAttackPacket(e, mc.player.isShiftKeyDown()));
+            mc.getConnection().send(new ServerboundInteractPacket(e.getId(), null, null, mc.player.isShiftKeyDown()));
             mc.getConnection().send(new ServerboundSwingPacket(mc.player.getUsedItemHand()));
             mc.player.resetOnlyAttackStrengthTicker();
 
